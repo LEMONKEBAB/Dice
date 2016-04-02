@@ -11,17 +11,13 @@ black = (0,0,0)
 red = (255,0,0)
 speed = [2, 2]
 size = width, height = 320, 240
+pics = []
+for n in range(1,21):
+	 pics.append(pygame.image.load("test/num%s.jpg" % n))
 
-one = pygame.image.load("dice1.png")
-two = pygame.image.load("dice2.png")
-three = pygame.image.load("dice3.png")
-four = pygame.image.load("dice4.png")
-five = pygame.image.load("dice5.png")
-six = pygame.image.load("dice6.png") 
 
 class MenuItem(pygame.font.Font):
-    def __init__(self, text, font=None, font_size=30,
-                 font_color=white, (pos_x, pos_y)=(0, 0)):
+    def __init__(self, text, font=None, font_size=30, font_color=white, (pos_x, pos_y)=(0, 0)):
         pygame.font.Font.__init__(self, font, font_size)
         self.text = text
         self.font_size = font_size
@@ -130,6 +126,8 @@ class Testmenu():
 						if item.is_mouse_selection(mpos):
 							mainloop = False
 							self.funcs[item.text]()
+				#if event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
+				#	mainloop = False
 
 			if pygame.mouse.get_rel() != (0,0):
 				self.mouse_is_visible = True
@@ -147,284 +145,237 @@ class Testmenu():
 
 
 if __name__ == '__main__':
-	
-	def die():
-		num = randint(1,6)
-		
 
-		while 1:
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT: 
-					sys.exit()
-				elif event.type == pygame.MOUSEBUTTONDOWN:
-					num = randint(1,6)
-				elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-					num = randint(1,6)
-				elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
-					tm.run()
-				elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-					sys.exit()
+
+	def die(n):
+				num = randint(1,n)
+				
+				thing = 1
+				while thing == 1:
+					for event in pygame.event.get():
+						if event.type == pygame.QUIT: 
+							sys.exit()
+						elif event.type == pygame.MOUSEBUTTONDOWN:
+							num = randint(1,n)
+						elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+							num = randint(1,n)
+						elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
+							thing = 0
+						elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+							sys.exit()
 
 			
-			if num == 1:
-				dice1 = one
-			elif num == 2:
-				dice1 = two
-			elif num == 3:
-				dice1 = three
-			elif num == 4:
-				dice1 = four
-			elif num == 5:
-				dice1 = five
-			elif num == 6:
-				dice1 = six
+					dice1 = pics[num-1]
 
-			note = "Reroll : click/return    Menu : backspace    Quit : escape"
-			label = myfont.render(note,1,white)
-			
-			screen.fill(black)
-			screen.blit(dice1, (0,0))
-			screen.blit(label, (50, 550))
+					note = "Reroll : click/return    Menu : backspace    Quit : escape"
+					label = myfont.render(note,1,white)
+					
+					screen.fill(black)
+					screen.blit(dice1, (0,0))
+					screen.blit(label, (50, 550))
 
-			pygame.display.flip()
-	
-	def dice_2():
-		def roll():
-			num1 = randint(1,6)
-			num2 = randint(1,6)
-			return num1, num2
+					pygame.display.flip()	
+	def dice_2(n):
+				def roll():
+					num1 = randint(1,n)
+					num2 = randint(1,n)
+					return num1, num2
 
-		num = roll()
+				num = roll()
+				thing = 1
+				while thing == 1:
+					for event in pygame.event.get():
+						if event.type == pygame.QUIT: 
+							sys.exit()
+						elif event.type == pygame.MOUSEBUTTONDOWN:
+							num = roll()
+						elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+							num = roll()
+						elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
+							thing = 0
+						elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+							sys.exit()
 
-		while 1:
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT: 
-					sys.exit()
-				elif event.type == pygame.MOUSEBUTTONDOWN:
-					num = roll()
-				elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-					num = roll()
-				elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
-					tm.run()
-				elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-					sys.exit()
+					dice1 = pics[num[0]-1]
+					dice2 = pics[num[1]-1]
 
-			if num[0] == 1:
-				dice1 = one
-			elif num[0] == 2:
-				dice1 = two
-			elif num[0] == 3:
-				dice1 = three
-			elif num[0] == 4:
-				dice1 = four
-			elif num[0] == 5:
-				dice1 = five
-			elif num[0] == 6:
-				dice1 = six
+					note = "Reroll : click/return    Menu : backspace    Quit : escape"
+					label = myfont.render(note,1,white)
 
-			if num[1] == 1:
-				dice2 = one
-			elif num[1] == 2:
-				dice2 = two
-			elif num[1] == 3:
-				dice2 = three
-			elif num[1] == 4:
-				dice2 = four
-			elif num[1] == 5:
-				dice2 = five
-			elif num[1] == 6:
-				dice2 = six
-			else:
-				dice2 = None
+					screen.fill(black)
+					screen.blit(dice1, (0,0))
+					if dice2 != None:
+						screen.blit(dice2, (250,0))
+					screen.blit(label, (50, 550))
+					pygame.display.flip()
+	def dice_3(n):
+				def roll():
+					num1 = randint(1,n)
+					num2 = randint(1,n)
+					num3 = randint(1,n)
+					return num1, num2, num3
 
-			note = "Reroll : click/return    Menu : backspace    Quit : escape"
-			label = myfont.render(note,1,white)
+				num = roll()
+				thing = 1
+				while thing == 1:
+					for event in pygame.event.get():
+						if event.type == pygame.QUIT: 
+							sys.exit()
+						elif event.type == pygame.MOUSEBUTTONDOWN:
+							num = roll()
+						elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+							num = roll()
+						elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
+							thing = 0
+						elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+							sys.exit()
 
-			screen.fill(black)
-			screen.blit(dice1, (0,0))
-			if dice2 != None:
-				screen.blit(dice2, (250,0))
-			screen.blit(label, (50, 550))
-			pygame.display.flip()
+					dice1 = pics[num[0]-1]
+					dice2 = pics[num[1]-1]
+					dice3 = pics[num[2]-1]
 
+					note = "Reroll : click/return    Menu : backspace    Quit : escape"
+					label = myfont.render(note,1,white)
 
-	def dice_3():
-		def roll():
-			num1 = randint(1,6)
-			num2 = randint(1,6)
-			num3 = randint(1,6)
-			return num1, num2, num3
+					screen.fill(black)
+					screen.blit(dice1, (0,0))
+					if dice2 != None:
+						screen.blit(dice2, (250,0))
+					if dice3 != None:
+						screen.blit(dice3, (0,250))
+					screen.blit(label, (50, 550))
+					pygame.display.flip()
+	def dice_4(n):
+				def roll():
+					num1 = randint(1,n)
+					num2 = randint(1,n)
+					num3 = randint(1,n)
+					num4 = randint(1,n)
+					return num1, num2, num3, num4
 
-		num = roll()
+				num = roll()
+				thing = 1
+				while thing == 1:
+					for event in pygame.event.get():
+						if event.type == pygame.QUIT: 
+							sys.exit()
+						elif event.type == pygame.MOUSEBUTTONDOWN:
+							num = roll()
+						elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+							num = roll()
+						elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
+							thing = 0
+						elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+							sys.exit()
 
-		while 1:
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT: 
-					sys.exit()
-				elif event.type == pygame.MOUSEBUTTONDOWN:
-					num = roll()
-				elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-					num = roll()
-				elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
-					tm.run()
-				elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-					sys.exit()
+					dice1 = pics[num[0]-1]
+					dice2 = pics[num[1]-1]
+					dice3 = pics[num[2]-1]
+					dice4 = pics[num[3]-1]
 
-			if num[0] == 1:
-				dice1 = one
-			elif num[0] == 2:
-				dice1 = two
-			elif num[0] == 3:
-				dice1 = three
-			elif num[0] == 4:
-				dice1 = four
-			elif num[0] == 5:
-				dice1 = five
-			elif num[0] == 6:
-				dice1 = six
+					note = "Reroll : click/return    Menu : backspace    Quit : escape"
+					label = myfont.render(note,1,white)
 
-			if num[1] == 1:
-				dice2 = one
-			elif num[1] == 2:
-				dice2 = two
-			elif num[1] == 3:
-				dice2 = three
-			elif num[1] == 4:
-				dice2 = four
-			elif num[1] == 5:
-				dice2 = five
-			elif num[1] == 6:
-				dice2 = six
-			else:
-				dice2 = None
+					screen.fill(black)
+					screen.blit(dice1, (0,0))
+					if dice2 != None:
+						screen.blit(dice2, (250,0))
+					if dice3 != None:
+						screen.blit(dice3, (0,250))
+					if dice4 != None:
+						screen.blit(dice4, (250,250))
+					screen.blit(label, (50, 550))
+					pygame.display.flip()
 
-			if num[2] == 1:
-				dice3 = one
-			elif num[2] == 2:
-				dice3 = two
-			elif num[2] == 3:
-				dice3 = three
-			elif num[2] == 4:
-				dice3 = four
-			elif num[2] == 5:
-				dice3 = five
-			elif num[2] == 6:
-				dice3 = six
-			else:
-				dice3 = None
-
-			note = "Reroll : click/return    Menu : backspace    Quit : escape"
-			label = myfont.render(note,1,white)
-
-			screen.fill(black)
-			screen.blit(dice1, (0,0))
-			if dice2 != None:
-				screen.blit(dice2, (250,0))
-			if dice3 != None:
-				screen.blit(dice3, (0,250))
-			screen.blit(label, (50, 550))
-			pygame.display.flip()
-
-	def dice_4():
-		def roll():
-			num1 = randint(1,6)
-			num2 = randint(1,6)
-			num3 = randint(1,6)
-			num4 = randint(1,6)
-			return num1, num2, num3, num4
-
-		num = roll()
-
-		while 1:
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT: 
-					sys.exit()
-				elif event.type == pygame.MOUSEBUTTONDOWN:
-					num = roll()
-				elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-					num = roll()
-				elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
-					tm.run()
-				elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-					sys.exit()
-
-			if num[0] == 1:
-				dice1 = one
-			elif num[0] == 2:
-				dice1 = two
-			elif num[0] == 3:
-				dice1 = three
-			elif num[0] == 4:
-				dice1 = four
-			elif num[0] == 5:
-				dice1 = five
-			elif num[0] == 6:
-				dice1 = six
-
-			if num[1] == 1:
-				dice2 = one
-			elif num[1] == 2:
-				dice2 = two
-			elif num[1] == 3:
-				dice2 = three
-			elif num[1] == 4:
-				dice2 = four
-			elif num[1] == 5:
-				dice2 = five
-			elif num[1] == 6:
-				dice2 = six
-			else:
-				dice2 = None
-
-			if num[2] == 1:
-				dice3 = one
-			elif num[2] == 2:
-				dice3 = two
-			elif num[2] == 3:
-				dice3 = three
-			elif num[2] == 4:
-				dice3 = four
-			elif num[2] == 5:
-				dice3 = five
-			elif num[2] == 6:
-				dice3 = six
-			else:
-				dice3 = None
-
-			if num[3] == 1:
-				dice4 = one
-			elif num[3] == 2:
-				dice4 = two
-			elif num[3] == 3:
-				dice4 = three
-			elif num[3] == 4:
-				dice4 = four
-			elif num[3] == 5:
-				dice4 = five
-			elif num[3] == 6:
-				dice4 = six
-			else:
-				dice4 = None
-
-			note = "Reroll : click/return    Menu : backspace    Quit : escape"
-			label = myfont.render(note,1,white)
-
-			screen.fill(black)
-			screen.blit(dice1, (0,0))
-			if dice2 != None:
-				screen.blit(dice2, (250,0))
-			if dice3 != None:
-				screen.blit(dice3, (0,250))
-			if dice4 != None:
-				screen.blit(dice4, (250,250))
-			screen.blit(label, (50, 550))
-			pygame.display.flip()
+	def d4():
+		def d_1():
+			die(4)
+		def d_2():
+			dice_2(4)
+		def d_3():
+			dice_3(4)
+		def d_4():
+			dice_4(4)
+		theitems =  ('One', 'Two', 'Three', 'Four', 'Quit')
+		thefuncs = {'One' : d_1, 'Two' : d_2, 'Three' : d_3, 'Four' : d_4, 'Quit' : sys.exit}
+		the = Testmenu(screen, theitems, thefuncs)
+		the.run()
+		tm.run()	
+	def d6():
+		def d_1():
+			die(6)
+		def d_2():
+			dice_2(6)
+		def d_3():
+			dice_3(6)
+		def d_4():
+			dice_4(6)
+		theitems =  ('One', 'Two', 'Three', 'Four', 'Quit')
+		thefuncs = {'One' : d_1, 'Two' : d_2, 'Three' : d_3, 'Four' : d_4, 'Quit' : sys.exit}
+		the = Testmenu(screen, theitems, thefuncs)
+		the.run()
+		tm.run()	
+	def d8():
+		def d_1():
+			die(8)
+		def d_2():
+			dice_2(8)
+		def d_3():
+			dice_3(8)
+		def d_4():
+			dice_4(8)
+		theitems =  ('One', 'Two', 'Three', 'Four', 'Quit')
+		thefuncs = {'One' : d_1, 'Two' : d_2, 'Three' : d_3, 'Four' : d_4, 'Quit' : sys.exit}
+		the = Testmenu(screen, theitems, thefuncs)
+		the.run()
+		tm.run()
+	def d10():
+		def d_1():
+			die(10)
+		def d_2():
+			dice_2(10)
+		def d_3():
+			dice_3(10)
+		def d_4():
+			dice_4(10)
+		theitems =  ('One', 'Two', 'Three', 'Four', 'Quit')
+		thefuncs = {'One' : d_1, 'Two' : d_2, 'Three' : d_3, 'Four' : d_4, 'Quit' : sys.exit}
+		the = Testmenu(screen, theitems, thefuncs)
+		the.run()
+		tm.run()
+	def d12():
+		def d_1():
+			die(12)
+		def d_2():
+			dice_2(12)
+		def d_3():
+			dice_3(12)
+		def d_4():
+			dice_4(12)
+		theitems =  ('One', 'Two', 'Three', 'Four', 'Quit')
+		thefuncs = {'One' : d_1, 'Two' : d_2, 'Three' : d_3, 'Four' : d_4, 'Quit' : sys.exit}
+		the = Testmenu(screen, theitems, thefuncs)
+		the.run()
+		tm.run()
+	def d20():
+		def d_1():
+			die(20)
+		def d_2():
+			dice_2(20)
+		def d_3():
+			dice_3(20)
+		def d_4():
+			dice_4(20)
+		theitems =  ('One', 'Two', 'Three', 'Four', 'Quit')
+		thefuncs = {'One' : d_1, 'Two' : d_2, 'Three' : d_3, 'Four' : d_4, 'Quit' : sys.exit}
+		the = Testmenu(screen, theitems, thefuncs)
+		the.run()
+		tm.run()
 
 	screen = pygame.display.set_mode((640, 640), 0, 32)
 
-	menu_items = ('One', 'Two', 'Three', 'Four', 'Quit')
-	funcs = {'One' : die, 'Two' : dice_2, 'Three' : dice_3, 'Four' : dice_4, 'Quit' : sys.exit}
-
+	menu_items = ('d4','d6', 'd8', 'd10', 'd12', 'd20', 'Quit')
+	funcs = {'d4' : d4, 'd6' : d6, 'd8' : d8, 'd10' : d10, 'd12' : d12, 'd20' : d20, 'Quit':sys.exit}
 	pygame.display.set_caption('Dice Simulator')
 	tm = Testmenu(screen, menu_items, funcs)
 	tm.run()
