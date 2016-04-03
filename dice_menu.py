@@ -3,7 +3,7 @@ from random import randint
 
 
 pygame.init()
-
+pygame.mixer.init()
 myfont = pygame.font.SysFont(None, 30)
 
 white = (255,255,255)
@@ -15,7 +15,7 @@ pics = []
 for n in range(1,21):
 	 pics.append(pygame.image.load("test/num%s.jpg" % n))
 
-
+noise = pygame.mixer.Sound("ShakeNRoll.wav")
 class MenuItem(pygame.font.Font):
     def __init__(self, text, font=None, font_size=30, font_color=white, (pos_x, pos_y)=(0, 0)):
         pygame.font.Font.__init__(self, font, font_size)
@@ -47,13 +47,14 @@ class MenuItem(pygame.font.Font):
     
 
 class Testmenu():
-	def __init__(self, screen, items, funcs, bg_colour= black, font =None, font_size = 30, font_color = white):
+	def __init__(self, screen, items, funcs, header, bg_colour= black, font =None, font_size = 30, font_color = white):
 		self.screen = screen
 		self.scr_width = self.screen.get_rect().width
 		self.scr_height = self.screen.get_rect().height
 		self.bg_colour = bg_colour
 		self.font = pygame.font.SysFont(font, font_size)
 		self.font_color = font_color
+		self.header = header
 
 		self.items = []
 		for index, item in enumerate(items):
@@ -105,6 +106,7 @@ class Testmenu():
 
 	def run(self):
 		mainloop = True
+		#backimg = pygame.image.load("mountains.jpg").convert()
 		while mainloop == True:
 			self.clock.tick(60)
 
@@ -126,14 +128,15 @@ class Testmenu():
 						if item.is_mouse_selection(mpos):
 							mainloop = False
 							self.funcs[item.text]()
-				#if event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
-				#	mainloop = False
 
 			if pygame.mouse.get_rel() != (0,0):
 				self.mouse_is_visible = True
 
 			self.set_mouse_visibility()
 			self.screen.fill(self.bg_colour)
+			#self.screen.blit(backimg, (0,0))
+			title = myfont.render(self.header,1,white)
+			self.screen.blit(title, (200,50))
 
 			for item in self.items:
 				if self.mouse_is_visible:
@@ -147,112 +150,13 @@ class Testmenu():
 if __name__ == '__main__':
 
 
-	def die(n):
-				num = randint(1,n)
-				
-				thing = 1
-				while thing == 1:
-					for event in pygame.event.get():
-						if event.type == pygame.QUIT: 
-							sys.exit()
-						elif event.type == pygame.MOUSEBUTTONDOWN:
-							num = randint(1,n)
-						elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-							num = randint(1,n)
-						elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
-							thing = 0
-						elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-							sys.exit()
-
-			
-					dice1 = pics[num-1]
-
-					note = "Reroll : click/return    Menu : backspace    Quit : escape"
-					label = myfont.render(note,1,white)
-					
-					screen.fill(black)
-					screen.blit(dice1, (0,0))
-					screen.blit(label, (50, 550))
-
-					pygame.display.flip()	
-	def dice_2(n):
-				def roll():
-					num1 = randint(1,n)
-					num2 = randint(1,n)
-					return num1, num2
-
-				num = roll()
-				thing = 1
-				while thing == 1:
-					for event in pygame.event.get():
-						if event.type == pygame.QUIT: 
-							sys.exit()
-						elif event.type == pygame.MOUSEBUTTONDOWN:
-							num = roll()
-						elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-							num = roll()
-						elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
-							thing = 0
-						elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-							sys.exit()
-
-					dice1 = pics[num[0]-1]
-					dice2 = pics[num[1]-1]
-
-					note = "Reroll : click/return    Menu : backspace    Quit : escape"
-					label = myfont.render(note,1,white)
-
-					screen.fill(black)
-					screen.blit(dice1, (0,0))
-					if dice2 != None:
-						screen.blit(dice2, (250,0))
-					screen.blit(label, (50, 550))
-					pygame.display.flip()
-	def dice_3(n):
-				def roll():
-					num1 = randint(1,n)
-					num2 = randint(1,n)
-					num3 = randint(1,n)
-					return num1, num2, num3
-
-				num = roll()
-				thing = 1
-				while thing == 1:
-					for event in pygame.event.get():
-						if event.type == pygame.QUIT: 
-							sys.exit()
-						elif event.type == pygame.MOUSEBUTTONDOWN:
-							num = roll()
-						elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-							num = roll()
-						elif event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
-							thing = 0
-						elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-							sys.exit()
-
-					dice1 = pics[num[0]-1]
-					dice2 = pics[num[1]-1]
-					dice3 = pics[num[2]-1]
-
-					note = "Reroll : click/return    Menu : backspace    Quit : escape"
-					label = myfont.render(note,1,white)
-
-					screen.fill(black)
-					screen.blit(dice1, (0,0))
-					if dice2 != None:
-						screen.blit(dice2, (250,0))
-					if dice3 != None:
-						screen.blit(dice3, (0,250))
-					screen.blit(label, (50, 550))
-					pygame.display.flip()
-	def dice_4(n):
+	def dice(i,n):
 				def roll():
 					num1 = randint(1,n)
 					num2 = randint(1,n)
 					num3 = randint(1,n)
 					num4 = randint(1,n)
 					return num1, num2, num3, num4
-
 				num = roll()
 				thing = 1
 				while thing == 1:
@@ -267,11 +171,17 @@ if __name__ == '__main__':
 							thing = 0
 						elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
 							sys.exit()
-
+					dice1 = None
+					dice2 = None
+					dice3 = None
+					dice4 = None
 					dice1 = pics[num[0]-1]
-					dice2 = pics[num[1]-1]
-					dice3 = pics[num[2]-1]
-					dice4 = pics[num[3]-1]
+					if i > 1:
+						dice2 = pics[num[1]-1]
+					if i >2:
+						dice3 = pics[num[2]-1]
+					if i >3:
+						dice4 = pics[num[3]-1]
 
 					note = "Reroll : click/return    Menu : backspace    Quit : escape"
 					label = myfont.render(note,1,white)
@@ -289,86 +199,92 @@ if __name__ == '__main__':
 
 	def d4():
 		def d_1():
-			die(4)
+			dice(1,4)
 		def d_2():
-			dice_2(4)
+			dice(2,4)
 		def d_3():
-			dice_3(4)
+			dice(3,4)
 		def d_4():
-			dice_4(4)
+			dice(4,4)
 		theitems =  ('One', 'Two', 'Three', 'Four', 'Quit')
 		thefuncs = {'One' : d_1, 'Two' : d_2, 'Three' : d_3, 'Four' : d_4, 'Quit' : sys.exit}
-		the = Testmenu(screen, theitems, thefuncs)
+		theheader = 'Select Number of Dice'
+		the = Testmenu(screen, theitems, thefuncs, theheader)
 		the.run()
 		tm.run()	
 	def d6():
 		def d_1():
-			die(6)
+			dice(1,6)
 		def d_2():
-			dice_2(6)
+			dice(2,6)
 		def d_3():
-			dice_3(6)
+			dice(3,6)
 		def d_4():
-			dice_4(6)
+			dice(4,6)
 		theitems =  ('One', 'Two', 'Three', 'Four', 'Quit')
 		thefuncs = {'One' : d_1, 'Two' : d_2, 'Three' : d_3, 'Four' : d_4, 'Quit' : sys.exit}
-		the = Testmenu(screen, theitems, thefuncs)
+		theheader = 'Select Number of Dice'
+		the = Testmenu(screen, theitems, thefuncs, theheader)
 		the.run()
 		tm.run()	
 	def d8():
 		def d_1():
-			die(8)
+			dice(1,8)
 		def d_2():
-			dice_2(8)
+			dice(2,8)
 		def d_3():
-			dice_3(8)
+			dice(3,8)
 		def d_4():
-			dice_4(8)
+			dice(4,8)
 		theitems =  ('One', 'Two', 'Three', 'Four', 'Quit')
 		thefuncs = {'One' : d_1, 'Two' : d_2, 'Three' : d_3, 'Four' : d_4, 'Quit' : sys.exit}
-		the = Testmenu(screen, theitems, thefuncs)
+		theheader = 'Select Number of Dice'
+		the = Testmenu(screen, theitems, thefuncs, theheader)
 		the.run()
 		tm.run()
 	def d10():
 		def d_1():
-			die(10)
+			dice(1,10)
 		def d_2():
-			dice_2(10)
+			dice(2,10)
 		def d_3():
-			dice_3(10)
+			dice(3,10)
 		def d_4():
-			dice_4(10)
+			dice(4,10)
 		theitems =  ('One', 'Two', 'Three', 'Four', 'Quit')
 		thefuncs = {'One' : d_1, 'Two' : d_2, 'Three' : d_3, 'Four' : d_4, 'Quit' : sys.exit}
-		the = Testmenu(screen, theitems, thefuncs)
+		theheader = 'Select Number of Dice'
+		the = Testmenu(screen, theitems, thefuncs, theheader)
 		the.run()
 		tm.run()
 	def d12():
 		def d_1():
-			die(12)
+			dice(1,12)
 		def d_2():
-			dice_2(12)
+			dice(2,12)
 		def d_3():
-			dice_3(12)
+			dice(3,12)
 		def d_4():
-			dice_4(12)
+			dice(4,12)
 		theitems =  ('One', 'Two', 'Three', 'Four', 'Quit')
 		thefuncs = {'One' : d_1, 'Two' : d_2, 'Three' : d_3, 'Four' : d_4, 'Quit' : sys.exit}
-		the = Testmenu(screen, theitems, thefuncs)
+		theheader = 'Select Number of Dice'
+		the = Testmenu(screen, theitems, thefuncs, theheader)
 		the.run()
 		tm.run()
 	def d20():
 		def d_1():
-			die(20)
+			dice(1,20)
 		def d_2():
-			dice_2(20)
+			dice(2,20)
 		def d_3():
-			dice_3(20)
+			dice(3,20)
 		def d_4():
-			dice_4(20)
+			dice(4,20)
 		theitems =  ('One', 'Two', 'Three', 'Four', 'Quit')
 		thefuncs = {'One' : d_1, 'Two' : d_2, 'Three' : d_3, 'Four' : d_4, 'Quit' : sys.exit}
-		the = Testmenu(screen, theitems, thefuncs)
+		theheader = 'Select Number of Dice'
+		the = Testmenu(screen, theitems, thefuncs, theheader)
 		the.run()
 		tm.run()
 
@@ -376,6 +292,7 @@ if __name__ == '__main__':
 
 	menu_items = ('d4','d6', 'd8', 'd10', 'd12', 'd20', 'Quit')
 	funcs = {'d4' : d4, 'd6' : d6, 'd8' : d8, 'd10' : d10, 'd12' : d12, 'd20' : d20, 'Quit':sys.exit}
+	header = 'Select Dice Type'
 	pygame.display.set_caption('Dice Simulator')
-	tm = Testmenu(screen, menu_items, funcs)
+	tm = Testmenu(screen, menu_items, funcs, header)
 	tm.run()
